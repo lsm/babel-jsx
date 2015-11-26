@@ -1,37 +1,36 @@
-var fs = require('fs');
-var jstransform = require('jstransform/simple');
+var babel = require("babel-core")
 
-var installed = false;
+var installed = false
 
 function install(options) {
   if (installed) {
-    return;
+    return
   }
 
-  options = options || {};
+  options = options || {}
 
-  // Import everything in the transformer codepath before we add the import hook
-  jstransform.transform('', options);
+  require.extensions[options.extension || '.jsx'] = function(module, filename) {
+    var transformOptions = {
+      ast: false,
+      code: true,
+      filename: filename,
+      sourceMaps: false,
+      retainLines: true,
+      plugins: ["syntax-jsx", "transform-react-jsx"]
+    }
 
-  require.extensions[options.extension || '.js'] = function(module, filename) {
-    if (!options.hasOwnProperty("react"))
-      options.react = true;
+    var code = babel.transformFileSync(filename, transformOptions).code
 
-    var src = fs.readFileSync(filename, {encoding: 'utf8'});
     if (typeof options.additionalTransform == 'function') {
-      src = options.additionalTransform(src);
+      code = options.additionalTransform(code)
     }
-    try {
-      src = jstransform.transform(src, options).code;
-    } catch (e) {
-      throw new Error('Error transforming ' + filename + ' to JS: ' + e.toString());
-    }
-    module._compile(src, filename);
-  };
 
-  installed = true;
+    module._compile(code, filename)
+  }
+
+  installed = true
 }
 
 module.exports = {
   install: install
-};
+}
