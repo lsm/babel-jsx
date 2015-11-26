@@ -1,12 +1,10 @@
 {
-  "name": "babel-jsx",
+  "name": "jsx-hook",
   "version": "0.14.3",
-  "description": "transparently require/transform jsx from node with babel",
+  "description": "transparently require/transform jsx from node using jstransform",
   "main": "index.js",
   "dependencies": {
-    "babel-core": "6.2.1",
-    "babel-plugin-syntax-jsx": "6.1.18",
-    "babel-plugin-transform-react-jsx": "6.2.0"
+    "jstransform": "11.0.3"
   },
   "devDependencies": {
     "jasmine-node": "1.12.0",
@@ -14,9 +12,9 @@
     "react-dom": "0.14.3"
   },
   "scripts": {
-    "test": "jasmine-node babel-jsx.spec.js"
+    "test": "jasmine-node jsx-hook.spec.js"
   },
-  "repository": "lsm/babel-jsx",
-  "author": "Pete Hunt",
-  "license": "Apache 2"
+  "repository": "https://github.com/lsm/jsx-hook.git",
+  "author": "lsm",
+  "license": "MIT"
 }

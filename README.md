@@ -1,28 +1,33 @@
-# babel-jsx
+# jsx-hook
 
-Transparently `require()` and transform jsx from node with babel.
+Transparently `require()` and transform jsx from node using `jstransform`.
 
 ## Usage
 
-`require('babel-jsx').install()`
+`require('jsx-hook')()`
 
 If you want to use a different extension, do:
 
-`require('babel-jsx').install({extension: '.jsx!'})`
+`require('jsx-hook')('.jsx')`
 
-If you want to couple with an additional transform (such as CoffeeScript), do:
+or
 
-```javascript
-var coffee = require('coffee-script');
-require('babel-jsx').install({
-  extension: '.coffee',
-  additionalTransform: function(src) {
-    return coffee.compile(src, {
-      'bare': true
-    });
-  }
-});
-```
+`require('jsx-hook').install({extension: '.jsx'})`
+
+Then in you code you can require jsx on the fly:
+
+`require('view.jsx')`
+
+or
+
+`require('view.jsx!')`
+
+## Why?
+
+Babel is too slow as of version 6.2.1 for transforming jsx. Average 40 times slower than the `jstransform` implementation. That's very annoying if you have many jsx files.
+
+Also `require('view.jsx!')` is very helpful if you share jsx between server/client side and using tools like jspm to do in-browser transforming for development.
+
 
 ## Credit
 
